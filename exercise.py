@@ -27,6 +27,21 @@ if __name__ == "__main__":
 
 import random
 
+
+def func():
+    # a=[i.lower() for i in lists]
+    
+    # d={}
+    # for i in lists:
+    #     d[i]=lists.count(i)
+    for i in range(10):
+        yield i
+
+        
+
+
+
+
 def guessNumber(num,winningNumber,guess):
     gameOver = False
     while not gameOver:
@@ -54,4 +69,11 @@ if __name__ == "__main__":
     userGuess = int(input("Enter your Guess: "))
     guess = 1
     guessNumber(userGuess,winningNumber,guess)
+
+
+
+
+def func():
+    a= list(range(0,10))
+    lists
 

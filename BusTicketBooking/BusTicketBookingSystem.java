@@ -1,4 +1,6 @@
 package BusTicketBooking;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 interface BusBooking {
@@ -7,6 +9,9 @@ interface BusBooking {
 class BusBookingSystem implements BusBooking {
     public static final String[] BUSES = {"Bus1", "Bus2", "Bus3"};
     public static final int[] BUSFARE = {100, 150, 200};
+
+    Map<String,Integer> dict = new HashMap<>();
+
     @Override
     public void bookTicket(String source, String destination) throws InvalidBookingException {
         System.out.println("Available buses:");
@@ -24,10 +29,14 @@ class BusBookingSystem implements BusBooking {
         System.out.print("Enter your age: ");
         int age = sc.nextInt();
         sc.nextLine();
+        dict.put(name,age);
         System.out.print("Enter the  date of booking: ");
         String dateOfBooking = sc.nextLine();
-        System.out.println("Booking done for " + name + " (age " + age + ") on " + BUSES[busNumber - 1] +
-                " from " + source + " to " + destination + " on " + dateOfBooking + ". Total fare: Rs." + BUSFARE[busNumber - 1]);
+        for (String n: dict.keySet()){
+
+            System.out.println("Booking done for " + n + " (age " + dict.get(n) + ") on " + BUSES[busNumber - 1] +
+                    " from " + source + " to " + destination + " on " + dateOfBooking + ". Total fare: Rs." + BUSFARE[busNumber - 1]);
+        }
     }
 }
 class InvalidBookingException extends Exception {
@@ -40,6 +49,7 @@ public class BusTicketBookingSystem {
     public static void main(String[] args) throws InvalidBookingException {
         Scanner sc = new Scanner(System.in);
         BusBookingSystem busBookingSystem = new BusBookingSystem();
+        
         while (true) {
             System.out.println("Welcome to the Bhanupratap Bus Service");
             System.out.println("1. Book a bus ticket");
@@ -50,7 +60,15 @@ public class BusTicketBookingSystem {
             switch (choice) {
                 case 1:
                     System.out.print("From where do you want to travel: ");
-                    String source = sc.nextLine();
+                    String source="";
+                    try{
+                        source = sc.nextLine();
+                        if (!source.matches("[A-Za-z]")){    
+                            throw new InvalidBookingException("Invalid source");                      
+                        }
+                    }catch(Exception e){
+                        System.out.println("Enter a Valid Source");
+                    }
                     System.out.print("Enter your destination: ");
                     String destination = sc.nextLine();
                     busBookingSystem.bookTicket(source, destination);
